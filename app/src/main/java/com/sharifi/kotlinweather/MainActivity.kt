@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
-import com.sharifi.kotlinweather.home.HomeFragment
+import com.sharifi.kotlinweather.home.ForecastsFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
 
         supportFragmentManager
                 .beginTransaction()
-                .add(R.id.main_container, HomeFragment.newInstance(), HomeFragment.FRAGMENT_NAME)
+                .add(R.id.main_container, ForecastsFragment.newInstance(), ForecastsFragment.FRAGMENT_NAME)
                 .commit()
     }
 
