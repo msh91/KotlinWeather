@@ -9,7 +9,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.sharifi.kotlinweather.R
-import com.sharifi.kotlinweather.model.Person
+import com.sharifi.kotlinweather.data.Person
+import com.sharifi.kotlinweather.data.repository.Request
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.longToast
+import org.jetbrains.anko.uiThread
 
 /**
  * A placeholder fragment containing a simple view.
@@ -45,6 +49,13 @@ class ForecastsFragment : Fragment() {
         person.firstName = "mohammad"
         person.lastName = "sharifi"
         Log.d(TAG, person.toString())
+
+        doAsync {
+            Request("https://refill.vasapi.click/api/last_change/").run()
+            uiThread {
+                context.longToast("Request Performed!")
+            }
+        }
     }
 
     companion object {

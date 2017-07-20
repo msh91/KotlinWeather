@@ -1,4 +1,4 @@
-package com.sharifi.kotlinweather.model
+package com.sharifi.kotlinweather.data
 
 /**
  * Created by mohammad on 7/19/17.
