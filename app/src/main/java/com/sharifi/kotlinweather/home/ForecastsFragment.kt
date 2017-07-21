@@ -10,9 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.sharifi.kotlinweather.R
 import com.sharifi.kotlinweather.data.Person
-import com.sharifi.kotlinweather.data.repository.ForecastRequest
+import com.sharifi.kotlinweather.data.commands.RequestForecastCommand
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.longToast
 import org.jetbrains.anko.uiThread
 
 /**
@@ -29,14 +28,14 @@ class ForecastsFragment : Fragment() {
             "Sun 6/29 - Sunny - 20/7"
     )
     private val TAG = ForecastsFragment::class.java.simpleName
+    private lateinit var forecastList: RecyclerView
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val root = inflater!!.inflate(R.layout.fragment_home, container, false)
 
-        val forecastList = root?.findViewById(R.id.forecast_list) as RecyclerView
+        forecastList = root.findViewById(R.id.forecast_list) as RecyclerView
         forecastList.layoutManager = LinearLayoutManager(context)
-        forecastList.adapter = ForecastListAdapter(items)
 
         return root
     }
@@ -52,10 +51,10 @@ class ForecastsFragment : Fragment() {
 
 
         doAsync {
-            val forecastResult = ForecastRequest("tehran").execute()
+            val forecastResult = RequestForecastCommand("Tehran").execute()
             Log.d(TAG, forecastResult.toString())
             uiThread {
-                context.longToast("ForecastRequest Performed!")
+                forecastList.adapter=ForecastListAdapter(forecastResult)
             }
         }
     }
