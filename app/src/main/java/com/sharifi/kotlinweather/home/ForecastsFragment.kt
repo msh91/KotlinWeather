@@ -10,7 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.sharifi.kotlinweather.R
 import com.sharifi.kotlinweather.data.Person
-import com.sharifi.kotlinweather.data.repository.Request
+import com.sharifi.kotlinweather.data.repository.ForecastRequest
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.longToast
 import org.jetbrains.anko.uiThread
@@ -42,18 +42,20 @@ class ForecastsFragment : Fragment() {
     }
 
 
-
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val person = Person()
         person.firstName = "mohammad"
         person.lastName = "sharifi"
         Log.d(TAG, person.toString())
 
+
         doAsync {
-            Request("https://refill.vasapi.click/api/last_change/").run()
+            val forecastResult = ForecastRequest("tehran").execute()
+            Log.d(TAG, forecastResult.toString())
             uiThread {
-                context.longToast("Request Performed!")
+                context.longToast("ForecastRequest Performed!")
             }
         }
     }
