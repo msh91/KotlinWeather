@@ -16,7 +16,7 @@ import org.jetbrains.anko.find
  * Created by mohammad on 7/19/17.
  */
 
-class ForecastListAdapter(val weekForecast: ForecastList, val itemClick: OnItemClickListener) : RecyclerView.Adapter<ForecastListAdapter.ViewHolder>() {
+class ForecastListAdapter(val weekForecast: ForecastList, val itemClick: (Forecast) -> Unit) : RecyclerView.Adapter<ForecastListAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -29,7 +29,7 @@ class ForecastListAdapter(val weekForecast: ForecastList, val itemClick: OnItemC
 
     override fun getItemCount(): Int = weekForecast.size()
 
-    class ViewHolder(view: View, val itemClick: OnItemClickListener) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View, val itemClick: (Forecast) -> Unit) : RecyclerView.ViewHolder(view) {
         private val iconView: ImageView = view.find(R.id.icon)
         private val dateView: TextView = view.find(R.id.date)
         private val descriptionView: TextView = view.find(R.id.description)
@@ -41,7 +41,7 @@ class ForecastListAdapter(val weekForecast: ForecastList, val itemClick: OnItemC
                 Picasso.with(itemView.context).load(iconUrl).into(iconView)
                 dateView.text = date
                 descriptionView.text = description
-                maxTempView.text= high.toString()
+                maxTempView.text = high.toString()
                 minTempView.text = low.toString()
                 itemView.setOnClickListener { itemClick(this) }
             }
