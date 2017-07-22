@@ -11,8 +11,6 @@ import android.view.ViewGroup
 import com.sharifi.kotlinweather.R
 import com.sharifi.kotlinweather.data.Person
 import com.sharifi.kotlinweather.data.commands.RequestForecastCommand
-import com.sharifi.kotlinweather.data.model.Forecast
-import com.sharifi.kotlinweather.home.ForecastListAdapter.OnItemClickListener
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
@@ -43,13 +41,6 @@ class ForecastsFragment : Fragment() {
         return root
     }
 
-
-    private val onItemClickListener = object : OnItemClickListener {
-        override fun invoke(forecast: Forecast) {
-            showToast(forecast.date)
-        }
-    }
-
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -63,7 +54,7 @@ class ForecastsFragment : Fragment() {
             val forecastResult = RequestForecastCommand("Tehran").execute()
             Log.d(TAG, forecastResult.toString())
             uiThread {
-                forecastList.adapter = ForecastListAdapter(forecastResult, onItemClickListener)
+                forecastList.adapter = ForecastListAdapter(forecastResult) {forecast ->  showToast(forecast.date) }
             }
         }
     }
