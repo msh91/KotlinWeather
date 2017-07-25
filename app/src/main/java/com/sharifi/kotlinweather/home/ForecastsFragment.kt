@@ -45,10 +45,11 @@ class ForecastsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val person = Person()
-        person.firstName = "mohammad"
-        person.lastName = "sharifi"
-        Log.d(TAG, person.toString())
-
+        customWith(person) {
+            firstName = "mohammad"
+            lastName = "sharifi"
+            Log.d(TAG, this.toString())
+        }
 
         doAsync {
             val forecastResult = RequestForecastCommand("Tehran").execute()
@@ -58,6 +59,11 @@ class ForecastsFragment : Fragment() {
             }
         }
     }
+
+    inline fun <T> customWith(t: T, body: T.() -> Unit) {
+        t.body()
+    }
+
 
     private fun showToast(message: String) {
         activity.toast(message)
