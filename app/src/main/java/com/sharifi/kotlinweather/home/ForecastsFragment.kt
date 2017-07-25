@@ -1,5 +1,8 @@
 package com.sharifi.kotlinweather.home
 
+import android.annotation.TargetApi
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -8,6 +11,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import com.sharifi.kotlinweather.R
 import com.sharifi.kotlinweather.data.Person
 import com.sharifi.kotlinweather.data.commands.RequestForecastCommand
@@ -51,6 +55,10 @@ class ForecastsFragment : Fragment() {
             Log.d(TAG, this.toString())
         }
 
+        supportsLollipop {
+            activity.window.statusBarColor = resources.getColor(R.color.colorPrimary, null)
+        }
+
         doAsync {
             val forecastResult = RequestForecastCommand("Tehran").execute()
             Log.d(TAG, forecastResult.toString())
@@ -62,6 +70,12 @@ class ForecastsFragment : Fragment() {
 
     inline fun <T> customWith(t: T, body: T.() -> Unit) {
         t.body()
+    }
+
+    inline fun supportsLollipop(code: () -> Unit) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            code()
+        }
     }
 
 
