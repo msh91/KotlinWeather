@@ -11,6 +11,7 @@ import com.sharifi.kotlinweather.data.model.Forecast
 import com.sharifi.kotlinweather.data.model.ForecastList
 import com.squareup.picasso.Picasso
 import org.jetbrains.anko.find
+import kotlinx.android.synthetic.main.item_forecast.view.*
 
 /**
  * Created by mohammad on 7/19/17.
@@ -30,19 +31,14 @@ class ForecastListAdapter(val weekForecast: ForecastList, val itemClick: (Foreca
     override fun getItemCount(): Int = weekForecast.size()
 
     class ViewHolder(view: View, val itemClick: (Forecast) -> Unit) : RecyclerView.ViewHolder(view) {
-        private val iconView: ImageView = view.find(R.id.icon)
-        private val dateView: TextView = view.find(R.id.date)
-        private val descriptionView: TextView = view.find(R.id.description)
-        private val maxTempView: TextView = view.find(R.id.maxTemperature)
-        private val minTempView: TextView = view.find(R.id.minTemperature)
 
         fun bind(forecast: Forecast) {
             with(forecast) {
-                Picasso.with(itemView.context).load(iconUrl).into(iconView)
-                dateView.text = date
-                descriptionView.text = description
-                maxTempView.text = high.toString()
-                minTempView.text = low.toString()
+                Picasso.with(itemView.context).load(iconUrl).into(itemView.icon)
+                itemView.date.text = date
+                itemView.description.text = description
+                itemView.maxTemperature.text = high.toString()
+                itemView.minTemperature.text = low.toString()
                 itemView.setOnClickListener { itemClick(this) }
             }
         }
