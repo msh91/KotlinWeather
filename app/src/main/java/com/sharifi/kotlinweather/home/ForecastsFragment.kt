@@ -55,10 +55,10 @@ class ForecastsFragment : Fragment() {
         }
 
         doAsync {
-            val forecastResult = RequestForecastCommand("Tehran").execute()
+            val forecastResult = RequestForecastCommand(123654).execute()
             Log.d(TAG, forecastResult.toString())
             uiThread {
-                forecastList.adapter = ForecastListAdapter(forecastResult) { forecast -> showToast(forecast.date) }
+                forecastList.adapter = ForecastListAdapter(forecastResult) { forecast -> showToast(forecast.description) }
             }
         }
     }

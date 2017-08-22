@@ -9,7 +9,6 @@ import com.sharifi.kotlinweather.util.CustomDelegate
 class App : Application() {
     companion object {
         var instance: App by CustomDelegate.notNullSingleValue()
-        fun instance() = instance
     }
 
     override fun onCreate() {

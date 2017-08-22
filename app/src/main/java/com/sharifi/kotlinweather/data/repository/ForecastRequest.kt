@@ -8,7 +8,7 @@ import java.net.URL
  * Created by sharifi on 7/20/17.
  */
 
-class ForecastRequest(val zipCode: String) {
+class ForecastRequest(val zipCode: Long) {
     companion object {
         private val APP_ID = "15646a06818f61f7b8d7823ca833e1ce"
         private val URL = "http://api.openweathermap.org/data/2.5/" +

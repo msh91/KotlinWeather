@@ -7,11 +7,11 @@ import com.sharifi.kotlinweather.data.repository.ForecastRequest
 /**
  * Created by sharifi on 7/21/17.
  */
-class RequestForecastCommand(val zipcode: String) : Command<ForecastList> {
+class RequestForecastCommand(val zipcode: Long) : Command<ForecastList> {
 
     override fun execute(): ForecastList {
         val forecastRequest = ForecastRequest(zipcode)
-        return ForecastDataMapper().convertFromDataModel(forecastRequest.execute())
+        return ForecastDataMapper().convertFromDataModel(zipcode, forecastRequest.execute())
     }
 
 }
