@@ -1,7 +1,11 @@
 package com.sharifi.kotlinweather.data.db
 
-import org.jetbrains.anko.db.MapRowParser
-import org.jetbrains.anko.db.SelectQueryBuilder
+import com.sharifi.kotlinweather.data.model.ForecastList
+import com.sharifi.kotlinweather.util.clear
+import com.sharifi.kotlinweather.util.parseList
+import com.sharifi.kotlinweather.util.parseOpt
+import com.sharifi.kotlinweather.util.toVarargArray
+import org.jetbrains.anko.db.insert
 import org.jetbrains.anko.db.select
 
 /**
@@ -21,17 +25,19 @@ class ForecastDb(val forecastDbHelper: ForecastDbHelper = ForecastDbHelper.insta
                 .whereSimple("${CityForecastTable.ID} = ?", zipcode.toString())
                 .parseOpt { CityForecast(HashMap(it), dailyForecast) }
 
-        if (city!=null) dbDataMapper.convertToDomain(city) else null
+        if (city != null) dbDataMapper.convertToDomain(city) else null
     }
 
-    fun <T : Any> SelectQueryBuilder.parseList(parser: (Map<String, Any?>) -> T): List<T> =
-            parseList(object : MapRowParser<T> {
-                override fun parseRow(columns: Map<String, Any?>): T =
-                        parser(columns)
-            })
+    fun saveForecast(forecastList: ForecastList) = forecastDbHelper.use {
+        clear(CityForecastTable.NAME)
+        clear(DayForecastTable.NAME)
+        with(dbDataMapper.convertFromDomain(forecastList)) {
+            insert(CityForecastTable.NAME, *map.toVarargArray())
+            dailyForecast.forEach {
+                insert(DayForecastTable.NAME, *it.map.toVarargArray())
+            }
+        }
 
-    fun <T : Any> SelectQueryBuilder.parseOpt(parser: (Map<String, Any?>) -> T): T? =
-            parseOpt(object : MapRowParser<T> {
-                override fun parseRow(columns: Map<String, Any?>): T = parser(columns)
-            })
+    }
+
 }
