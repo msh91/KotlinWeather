@@ -4,6 +4,7 @@ import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,8 +12,8 @@ import android.view.ViewGroup
 import com.sharifi.kotlinweather.R
 import com.sharifi.kotlinweather.data.Person
 import com.sharifi.kotlinweather.data.commands.RequestForecastCommand
-import kotlinx.android.synthetic.main.fragment_home.*
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.find
 import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
 
@@ -30,11 +31,12 @@ class ForecastsFragment : Fragment() {
             "Sun 6/29 - Sunny - 20/7"
     )
     private val TAG = ForecastsFragment::class.java.simpleName
+    lateinit var forecastList: RecyclerView
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val root = inflater!!.inflate(R.layout.fragment_home, container, false)
-
+        forecastList = root.find(R.id.forecastList)
         forecastList.layoutManager = LinearLayoutManager(context)
 
         return root
