@@ -9,7 +9,8 @@ data class ForecastList(
         val country: String,
         val dailyForecast: List<Forecast>) {
     operator fun get(position: Int) = dailyForecast[position]
-    fun size() = dailyForecast.size
+    val size: Int
+        get() = dailyForecast.size
 }
 
 data class Forecast(
