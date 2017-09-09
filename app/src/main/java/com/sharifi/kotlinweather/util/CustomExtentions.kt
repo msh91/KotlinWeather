@@ -5,6 +5,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import android.view.View
 import android.widget.TextView
 import org.jetbrains.anko.db.MapRowParser
 import org.jetbrains.anko.db.SelectQueryBuilder
@@ -16,7 +17,7 @@ import java.util.*
  * Created by mohammad on 8/22/17.
  */
 
-inline fun <reified T: Activity> Fragment.startActivity( vararg params: Pair<String, Any>) {
+inline fun <reified T : Activity> Fragment.startActivity(vararg params: Pair<String, Any>) {
     val intent = AnkoInternals.createIntent(context, T::class.java, params)
     startActivity(intent)
 }
@@ -59,3 +60,12 @@ fun Context.color(res: Int): Int = ContextCompat.getColor(this, res)
 var TextView.textColor: Int
     get() = currentTextColor
     set(value) = setTextColor(value)
+
+fun View.slideExit() {
+    if (translationY == 0f) animate().translationY(-height.toFloat())
+}
+
+fun View.slideEnter() {
+    if (translationY < 0f) animate().translationY(0f)
+
+}

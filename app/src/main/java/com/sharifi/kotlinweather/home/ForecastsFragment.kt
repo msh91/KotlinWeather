@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import com.sharifi.kotlinweather.R
 import com.sharifi.kotlinweather.data.Person
 import com.sharifi.kotlinweather.data.commands.RequestForecastCommand
 import com.sharifi.kotlinweather.detail.DetailActivity
+import com.sharifi.kotlinweather.toolbar.ToolbarManager
 import com.sharifi.kotlinweather.util.startActivity
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.find
@@ -22,24 +24,21 @@ import org.jetbrains.anko.uiThread
 /**
  * A placeholder fragment containing a simple view.
  */
-class ForecastsFragment : Fragment() {
-    private val items = listOf(
-            "Mon 6/23 - Sunny - 31/17",
-            "Tue 6/24 - Foggy - 21/8",
-            "Wed 6/25 - Cloudy - 22/17",
-            "Thurs 6/26 - Rainy - 18/11",
-            "Fri 6/27 - Foggy - 21/10",
-            "Sat 6/28 - TRAPPED IN WEATHER STATION - 23/18",
-            "Sun 6/29 - Sunny - 20/7"
-    )
+class ForecastsFragment : Fragment(), ToolbarManager {
+    override lateinit var toolbar: Toolbar
     private val TAG = ForecastsFragment::class.java.simpleName
     lateinit var forecastList: RecyclerView
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val root = inflater!!.inflate(R.layout.fragment_home, container, false)
+
+        initToolbar()
+
         forecastList = root.find(R.id.forecastList)
         forecastList.layoutManager = LinearLayoutManager(context)
+        attachToScroll(forecastList)
+
 
         return root
     }
@@ -59,15 +58,17 @@ class ForecastsFragment : Fragment() {
         }
 
         doAsync {
-            val forecastResult = RequestForecastCommand(123654).execute()
+            val forecastResult = RequestForecastCommand(112931).execute()
             Log.d(TAG, forecastResult.toString())
             uiThread {
-                forecastList.adapter = ForecastListAdapter(forecastResult) {
+                val adapter = ForecastListAdapter(forecastResult) {
                     startActivity<DetailActivity>(
                             DetailActivity.ID to it.id,
                             DetailActivity.CITY_NAME to forecastResult.city
                     )
                 }
+                forecastList.adapter = adapter
+                toolbarTitle = "${forecastResult.city} (${forecastResult.country})"
             }
         }
     }
@@ -91,12 +92,13 @@ class ForecastsFragment : Fragment() {
 
         val FRAGMENT_NAME: String? = ForecastsFragment::class.java.name
 
-        fun newInstance(): ForecastsFragment {
+        fun newInstance(toolbar: Toolbar): ForecastsFragment {
 
             val args = Bundle()
 
             val fragment = ForecastsFragment()
             fragment.arguments = args
+            fragment.toolbar = toolbar
             return fragment
         }
     }
