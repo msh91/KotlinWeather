@@ -8,6 +8,7 @@ package com.sharifi.kotlinweather.data.repository
  * Forecast model
  */
 data class Forecast(
+        val id: Long,
         val dt: Long,
         val temp: Temperature,
         val pressure: Float,

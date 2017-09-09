@@ -12,6 +12,8 @@ import android.view.ViewGroup
 import com.sharifi.kotlinweather.R
 import com.sharifi.kotlinweather.data.Person
 import com.sharifi.kotlinweather.data.commands.RequestForecastCommand
+import com.sharifi.kotlinweather.detail.DetailActivity
+import com.sharifi.kotlinweather.util.startActivity
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.find
 import org.jetbrains.anko.toast
@@ -60,7 +62,12 @@ class ForecastsFragment : Fragment() {
             val forecastResult = RequestForecastCommand(123654).execute()
             Log.d(TAG, forecastResult.toString())
             uiThread {
-                forecastList.adapter = ForecastListAdapter(forecastResult) { forecast -> showToast(forecast.description) }
+                forecastList.adapter = ForecastListAdapter(forecastResult) {
+                    startActivity<DetailActivity>(
+                            DetailActivity.ID to it.id,
+                            DetailActivity.CITY_NAME to forecastResult.city
+                    )
+                }
             }
         }
     }
