@@ -29,21 +29,6 @@ public class ForecastDb(val forecastDbHelper: ForecastDbHelper = ForecastDbHelpe
         if (city != null) dbDataMapper.convertToDomain(city) else null
     }
 
-    fun requestForecastByZipcode(zipcode: Long, date: Long) = forecastDbHelper.use {
-        val dailyRequest = "${DayForecastTable.CITY_ID} = ? " +
-                "AND ${DayForecastTable.DATE} >= ?"
-
-        val dailyForecast = select(DayForecastTable.NAME)
-                .whereSimple(dailyRequest, zipcode.toString(), date.toString())
-                .parseList { DayForecast(HashMap(it)) }
-
-        val city = select(CityForecastTable.NAME)
-                .whereSimple("${CityForecastTable.ID} = ?", zipcode.toString())
-                .parseOpt { CityForecast(HashMap(it), dailyForecast) }
-
-        if (city != null) dbDataMapper.convertToDomain(city) else null
-    }
-
     fun saveForecast(forecastList: ForecastList) = forecastDbHelper.use {
         clear(CityForecastTable.NAME)
         clear(DayForecastTable.NAME)
