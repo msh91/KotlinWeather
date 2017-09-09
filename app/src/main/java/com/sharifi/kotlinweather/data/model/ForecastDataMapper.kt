@@ -2,7 +2,6 @@ package com.sharifi.kotlinweather.data.model
 
 import com.sharifi.kotlinweather.data.repository.Forecast
 import com.sharifi.kotlinweather.data.repository.ForecastResult
-import java.text.DateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 import com.sharifi.kotlinweather.data.model.Forecast as ModelForecast
@@ -23,7 +22,7 @@ class ForecastDataMapper {
     }
 
     private fun convertForecastItemToDomain(forecast: Forecast) = with(forecast) {
-        ModelForecast(dt, weather[0].description, temp.max.toInt(), temp.min.toInt(),
+        ModelForecast(1 ,dt, weather[0].description, temp.max.toInt(), temp.min.toInt(),
                 generateIconUrl(weather[0].icon))
     }
 
