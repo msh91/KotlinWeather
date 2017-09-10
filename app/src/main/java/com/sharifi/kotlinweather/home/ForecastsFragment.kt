@@ -30,7 +30,7 @@ class ForecastsFragment : Fragment(), ToolbarManager {
     override lateinit var toolbar: Toolbar
     private val TAG = ForecastsFragment::class.java.simpleName
     lateinit var forecastList: RecyclerView
-    private var zipCode: Long by DelegateExt.longPreference(SettingsActivity.ZIP_CODE, SettingsActivity.DEFAULT_ZIP)
+    private var zipCode: Long by DelegateExt.preference(SettingsActivity.ZIP_CODE, SettingsActivity.DEFAULT_ZIP)
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
