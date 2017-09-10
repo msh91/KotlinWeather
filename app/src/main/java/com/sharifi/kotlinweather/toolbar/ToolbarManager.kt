@@ -52,9 +52,8 @@ interface ToolbarManager {
         })
     }
 
-    private fun createUpDrawable() = with(DrawerArrowDrawable(toolbar.context)) {
+    private fun createUpDrawable() = DrawerArrowDrawable(toolbar.context).apply {
         progress = 1f
-        this
     }
 
 
