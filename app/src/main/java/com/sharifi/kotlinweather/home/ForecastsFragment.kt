@@ -14,7 +14,9 @@ import com.sharifi.kotlinweather.R
 import com.sharifi.kotlinweather.data.Person
 import com.sharifi.kotlinweather.data.commands.RequestForecastCommand
 import com.sharifi.kotlinweather.detail.DetailActivity
+import com.sharifi.kotlinweather.setting.SettingsActivity
 import com.sharifi.kotlinweather.toolbar.ToolbarManager
+import com.sharifi.kotlinweather.util.DelegateExt
 import com.sharifi.kotlinweather.util.startActivity
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.find
@@ -28,6 +30,7 @@ class ForecastsFragment : Fragment(), ToolbarManager {
     override lateinit var toolbar: Toolbar
     private val TAG = ForecastsFragment::class.java.simpleName
     lateinit var forecastList: RecyclerView
+    private var zipCode: Long by DelegateExt.longPreference(SettingsActivity.ZIP_CODE, SettingsActivity.DEFAULT_ZIP)
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -56,22 +59,28 @@ class ForecastsFragment : Fragment(), ToolbarManager {
         supportsLollipop {
             activity.window.statusBarColor = resources.getColor(R.color.colorPrimary, null)
         }
+    }
 
-        doAsync {
-            val forecastResult = RequestForecastCommand(112931).execute()
-            Log.d(TAG, forecastResult.toString())
-            uiThread {
-                val adapter = ForecastListAdapter(forecastResult) {
-                    startActivity<DetailActivity>(
-                            DetailActivity.ID to it.id,
-                            DetailActivity.CITY_NAME to forecastResult.city
-                    )
-                }
-                forecastList.adapter = adapter
-                toolbarTitle = "${forecastResult.city} (${forecastResult.country})"
+    override fun onResume() {
+        super.onResume()
+        loadForecast()
+    }
+
+    private fun loadForecast() = doAsync {
+        val forecastResult = RequestForecastCommand(zipCode).execute()
+        Log.d(TAG, forecastResult.toString())
+        uiThread {
+            val adapter = ForecastListAdapter(forecastResult) {
+                startActivity<DetailActivity>(
+                        DetailActivity.ID to it.id,
+                        DetailActivity.CITY_NAME to forecastResult.city
+                )
             }
+            forecastList.adapter = adapter
+            toolbarTitle = "${forecastResult.city} (${forecastResult.country})"
         }
     }
+
 
     inline fun <T> customWith(t: T, body: T.() -> Unit) {
         t.body()
