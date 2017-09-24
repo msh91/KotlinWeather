@@ -44,6 +44,8 @@ dependencies {
     compile "com.android.support:design:$support_version"
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile "com.google.code.gson:gson:$gson_version"
+    compile "com.squareup.retrofit2:retrofit:$retrofit_version"
+    compile "com.squareup.retrofit2:converter-gson:$gson_converter_version"
     compile "com.squareup.picasso:picasso:$picasso_version"
     testCompile 'junit:junit:4.12'
 }
