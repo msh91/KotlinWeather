@@ -8,10 +8,10 @@ import com.sharifi.kotlinweather.data.service.RestClient
 /**
  * Created by sharifi on 9/24/17.
  */
-class ForecastServerRepository: ForecastRepository {
+class ForecastServerRepository(val apiService: ApiService = RestClient.createService(ApiService::class.java)): ForecastRepository {
     override fun requestForecastByZipCode(zipCode: Long, date: Long): ForecastList? {
-        val apiService: ApiService = RestClient.createService(ApiService::class.java)
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val response = apiService.requestForecastByZipCode(query = zipCode.toString()).execute()
+        return if (response.isSuccessful) response.body() else null
     }
 
     override fun requestDayForecast(id: Long): Forecast? {
