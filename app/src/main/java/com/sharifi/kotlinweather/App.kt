@@ -1,7 +1,7 @@
 package com.sharifi.kotlinweather
 
 import android.app.Application
-import com.sharifi.kotlinweather.util.CustomDelegate
+import com.sharifi.kotlinweather.legacy.util.CustomDelegate
 
 /**
  * Created by sharifi on 8/4/17.

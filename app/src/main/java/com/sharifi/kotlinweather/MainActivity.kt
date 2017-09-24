@@ -2,7 +2,7 @@ package com.sharifi.kotlinweather
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.sharifi.kotlinweather.home.ForecastsFragment
+import com.sharifi.kotlinweather.legacy.home.ForecastsFragment
 import org.jetbrains.anko.find
 
 class MainActivity : AppCompatActivity() {
