@@ -8,16 +8,13 @@ import retrofit2.Response
 /**
  * Created by sharifi on 9/25/17.
  */
-abstract class RestCallback<T> : Callback<T> {
+class RestCallback<T>(val failure: (error: RestError) -> Unit, val response: (body: T) -> Unit) : Callback<T> {
     private val TAG = RestCallback::class.java.simpleName
-
-    abstract fun onResponse(body: T)
-    abstract fun onFailure(error: RestError)
 
     override fun onFailure(call: Call<T>, t: Throwable) {
         Log.d(TAG, "${call.request().url()} onFailure: " + t.message)
         t.printStackTrace()
-        onFailure(RestError(RestStatus.NO_CONNECTION))
+        failure(RestError(RestStatus.NO_CONNECTION))
     }
 
     override fun onResponse(call: Call<T>, response: Response<T>) {
@@ -28,16 +25,16 @@ abstract class RestCallback<T> : Callback<T> {
             } catch (t: Throwable) {
 
             }
-            onFailure(RestError(RestStatus.BAD_RESPONSE, response.code()))
+            failure(RestError(RestStatus.BAD_RESPONSE, response.code()))
             return
         }
         val body = response.body()
         Log.d(TAG, "onResponse() called with body: $body")
-        if (body == null || (body is List<*> && body.isEmpty())) {
-            onFailure(RestError(RestStatus.BAD_RESPONSE, response.code()))
-            return
-        }
-        onResponse(body)
+
+        return if (body == null || (body is List<*> && body.isEmpty()))
+            failure(RestError(RestStatus.EMPTY_RESPONSE, response.code()))
+        else
+            response(body)
     }
 
 
