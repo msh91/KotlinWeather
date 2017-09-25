@@ -10,20 +10,16 @@ import com.sharifi.kotlinweather.data.service.RestError
 /**
  * Created by sharifi on 9/24/17.
  */
-class ForecastServerRepository(val apiService: ApiService = RestClient.createService(ApiService::class.java)) : ForecastRepository {
+class ForecastServerRepository(private val apiService: ApiService = RestClient.createService(ApiService::class.java)) : ForecastRepository {
     private val TAG = ForecastServerRepository::class.java.simpleName
 
-    override fun requestForecastByZipCode(zipCode: Long, date: Long, callback: ForecastRepository.ForecastListCallback) {
+    override fun requestForecastByZipCode(zipCode: Long, date: Long, success: (ForecastList) -> Unit, failure: (RestError) -> Unit) {
         apiService
                 .requestForecastByZipCode(query = zipCode.toString())
-                .enqueue(RestCallback<ForecastList>(forecastFailure(), forecastResponse()))
+                .enqueue(RestCallback<ForecastList>(success, failure))
     }
 
-    private fun forecastResponse(): (ForecastList) -> Unit = {}
-    private fun forecastFailure(): (RestError) -> Unit = {}
-
-
-    override fun requestDayForecast(id: Long): Forecast? {
+    override fun requestDayForecast(id: Long, success: (Forecast) -> Unit, failure: (RestError) -> Unit) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

@@ -8,7 +8,7 @@ import retrofit2.Response
 /**
  * Created by sharifi on 9/25/17.
  */
-class RestCallback<T>(val failure: (error: RestError) -> Unit, val response: (body: T) -> Unit) : Callback<T> {
+class RestCallback<T>(val response: (body: T) -> Unit, val failure: (error: RestError) -> Unit) : Callback<T> {
     private val TAG = RestCallback::class.java.simpleName
 
     override fun onFailure(call: Call<T>, t: Throwable) {
