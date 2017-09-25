@@ -18,22 +18,36 @@ class RestClient private constructor() {
 
     companion object {
         val DATE_FORMAT: String = "yyyy-MM-dd'T'HH:mm:ss"
-        val instance: RestClient by lazy { RestClient() }
+        private val instance: RestClient by lazy { RestClient() }
         fun <T> createService(serviceClass: Class<T>): T =
                 instance.retrofit.create(serviceClass)
     }
 
-    private val builder = Retrofit.Builder()
-            .baseUrl(Constants.BASE_URL)
-            .addConverterFactory(buildConverterFactory())
-    private val httpClient = OkHttpClient.Builder()
-            .readTimeout(20, TimeUnit.SECONDS)
-            .addInterceptor(CustomInterceptor())
-            .build()
-    private val retrofit = builder.client(httpClient).build()
+    val retrofit: Retrofit by lazy {
+        val builder = Retrofit.Builder()
+                .baseUrl(Constants.BASE_URL)
+                .addConverterFactory(buildConverterFactory())
+        val httpClient = OkHttpClient.Builder()
+                .readTimeout(20, TimeUnit.SECONDS)
+                .addInterceptor(customInterceptor())
+                .build()
+        builder.client(httpClient).build()
+    }
 
-    init {
-        Log.d(TAG, "init")
+    private fun customInterceptor(): (Interceptor.Chain) -> Response = {
+        val t1 = System.nanoTime()
+        val original = it.request()
+        val requestBuilder = original?.newBuilder()
+        val request = requestBuilder
+                ?.url(original.url())
+                ?.header("Accept-Language", "fa")
+                ?.method(original.method(), original.body())
+                ?.build()
+        Log.d(TAG, "Sending Request ${request?.url()} on ${it.connection()} %n ${request?.headers()}")
+        val response = it.proceed(requestBuilder!!.build())
+        val t2 = System.nanoTime()
+        Log.d(TAG, "Received Response for ${response.request().url()} in ${((t2 - t1) / 1e6)}")
+        response
     }
 
     private fun buildConverterFactory(): GsonConverterFactory {
@@ -42,23 +56,4 @@ class RestClient private constructor() {
         return GsonConverterFactory.create(gsonBuilder.create())
     }
 
-    private inner class CustomInterceptor : Interceptor {
-        override fun intercept(chain: Interceptor.Chain): Response {
-            val t1 = System.nanoTime()
-            val original = chain.request()
-            val requestBuilder = original?.newBuilder()
-            val request = requestBuilder
-                    ?.url(original.url())
-                    ?.header("Accept-Language", "fa")
-                    ?.method(original.method(), original.body())
-                    ?.build()
-            Log.d(TAG, "Sending Request ${request?.url()} on ${chain.connection()} %n ${request?.headers()}")
-            val response = chain.proceed(requestBuilder!!.build())
-            val t2 = System.nanoTime()
-            Log.d(TAG, "Received Response for ${response.request().url()} in ${((t2 - t1) / 1e6)}")
-            return response
-
-        }
-
-    }
 }
