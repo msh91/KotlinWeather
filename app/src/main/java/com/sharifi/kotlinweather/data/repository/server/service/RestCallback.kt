@@ -1,4 +1,4 @@
-package com.sharifi.kotlinweather.data.service
+package com.sharifi.kotlinweather.data.repository.server.service
 
 import android.util.Log
 import retrofit2.Call

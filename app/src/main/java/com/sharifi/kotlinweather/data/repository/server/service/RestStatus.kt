@@ -1,4 +1,4 @@
-package com.sharifi.kotlinweather.data.service
+package com.sharifi.kotlinweather.data.repository.server.service
 
 /**
  * Created by sharifi on 9/25/17.
