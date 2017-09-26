@@ -1,6 +1,6 @@
-package com.sharifi.kotlinweather.data.service
+package com.sharifi.kotlinweather.data.repository.server.service
 
-import com.sharifi.kotlinweather.data.model.ForecastList
+import com.sharifi.kotlinweather.data.repository.server.ForecastListResult
 import com.sharifi.kotlinweather.util.Constants
 import retrofit2.Call
 import retrofit2.http.GET
@@ -14,5 +14,5 @@ interface ApiService {
     fun requestForecastByZipCode(
             @Query("APPID") appId: String = Constants.APP_ID,
             @Query("q") query: String
-    ): Call<ForecastList>
+    ): Call<ForecastListResult>
 }

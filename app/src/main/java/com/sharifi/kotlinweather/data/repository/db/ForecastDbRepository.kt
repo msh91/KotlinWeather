@@ -1,8 +1,9 @@
-package com.sharifi.kotlinweather.data.repository
+package com.sharifi.kotlinweather.data.repository.db
 
 import com.sharifi.kotlinweather.data.model.Forecast
 import com.sharifi.kotlinweather.data.model.ForecastList
-import com.sharifi.kotlinweather.data.service.RestError
+import com.sharifi.kotlinweather.data.repository.ForecastRepository
+import com.sharifi.kotlinweather.data.repository.server.service.RestError
 
 /**
  * Created by sharifi on 9/24/17.

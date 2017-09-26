@@ -1,7 +1,5 @@
 package com.sharifi.kotlinweather.data.model
 
-import com.sharifi.kotlinweather.legacy.data.model.Forecast
-
 /**
  * Created by sharifi on 9/24/17.
  */
