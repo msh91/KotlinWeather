@@ -11,7 +11,7 @@ import com.sharifi.kotlinweather.base.BaseFragment
  */
 
 fun FragmentActivity.loadFragment(loadToBackStack: Boolean = false, load: FragmentTransaction.() -> String) {
-    if (this is BaseActivity && !canCommitFragmentTransactions) {
+    if (this is BaseActivity && !activityStarted) {
         return
     }
     val transaction = supportFragmentManager.beginTransaction()
@@ -24,7 +24,7 @@ fun FragmentActivity.loadFragment(loadToBackStack: Boolean = false, load: Fragme
 }
 
 fun Fragment.loadFragment(loadToBackStack: Boolean = false, useChildFragmentManager: Boolean = false, load: FragmentTransaction.() -> String) {
-    if (this is BaseFragment && !canCommitFragmentTransactions) {
+    if (this is BaseFragment && !fragmentStarted) {
         return
     }
 
