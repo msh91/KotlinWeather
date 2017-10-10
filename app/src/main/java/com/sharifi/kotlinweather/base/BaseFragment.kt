@@ -25,7 +25,7 @@ abstract class BaseFragment : Fragment() {
 }
 
 abstract class BaseFragmentWithPresenter : BaseFragment(), BaseView {
-    private val TAG = BaseFragmentWithPresenter::class.java.simpleName
+    private val BASE_TAG = BaseFragmentWithPresenter::class.java.simpleName
     override var canBeShown: Boolean = fragmentStarted
     override val ctx: Context by lazy { context }
 
@@ -45,7 +45,7 @@ abstract class BaseFragmentWithPresenter : BaseFragment(), BaseView {
 
     override fun onStart() {
         super.onStart()
-        Log.d(TAG, "onStart: canBeShown: " + canBeShown)
+        Log.d(BASE_TAG, "onStart: canBeShown: " + canBeShown)
         lazyPresenters.forEach { it.value.onStart() }
 
     }
@@ -57,7 +57,7 @@ abstract class BaseFragmentWithPresenter : BaseFragment(), BaseView {
 
     override fun onStop() {
         super.onStop()
-        Log.d(TAG, "onStart: canBeShown: " + canBeShown)
+        Log.d(BASE_TAG, "onStart: canBeShown: " + canBeShown)
         lazyPresenters.forEach { it.value.onStop() }
     }
 

@@ -2,8 +2,7 @@ package com.sharifi.kotlinweather
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.sharifi.kotlinweather.legacy.home.ForecastsFragment
-import org.jetbrains.anko.find
+import com.sharifi.kotlinweather.home.HomeFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -13,7 +12,7 @@ class MainActivity : AppCompatActivity() {
 
         supportFragmentManager
                 .beginTransaction()
-                .add(R.id.main_container, ForecastsFragment.newInstance(find(R.id.toolbar)), ForecastsFragment.FRAGMENT_NAME)
+                .add(R.id.main_container, HomeFragment(), "HomeFragment")
                 .commit()
     }
 }

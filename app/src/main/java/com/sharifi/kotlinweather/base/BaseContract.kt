@@ -1,6 +1,9 @@
 package com.sharifi.kotlinweather.base
 
 import android.content.Context
+import android.os.Bundle
+import android.os.PersistableBundle
+import com.sharifi.kotlinweather.R
 import org.jetbrains.anko.toast
 
 /**
@@ -49,6 +52,12 @@ class TestActivity : BaseActivityWithPresenter(), TestView {
     val testPresenter: TestPresenter by presenter { TestPresenterImpl() }
     override fun setProgressIndicator(active: Boolean) {
 
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+        onCreate(savedInstanceState) {
+            setContentView(R.layout.activity_main)
+        }
     }
 
 }
