@@ -3,48 +3,66 @@ package com.sharifi.kotlinweather.base
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.View
 
 /**
  * Created by sharifi on 10/4/17.
  */
 
-
-abstract class BaseFragment : Fragment(), BaseView {
+abstract class BaseFragment : Fragment() {
     var fragmentStarted: Boolean = false
-    override var fragmentTransactionCanBeCommitted: Boolean = fragmentStarted
-    override val ctx: Context by lazy { context }
-    abstract val presenter: BasePresenter
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        presenter.onCreate()
-    }
-
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        presenter.onViewCreated()
-    }
 
     override fun onStart() {
         super.onStart()
         fragmentStarted = true
-        presenter.onStart()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        presenter.onResume()
     }
 
     override fun onStop() {
         super.onStop()
         fragmentStarted = false
-        presenter.onStop()
+    }
+}
+
+abstract class BaseFragmentWithPresenter : BaseFragment(), BaseView {
+    private val TAG = BaseFragmentWithPresenter::class.java.simpleName
+    override var canBeShown: Boolean = fragmentStarted
+    override val ctx: Context by lazy { context }
+
+    fun <T: BasePresenter> presenter(init: ()-> T) = lazy(init).also { lazyPresenters += it }
+
+    private var lazyPresenters: List<Lazy<BasePresenter>> = emptyList()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        lazyPresenters.forEach { it.value.onCreate() }
+    }
+
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        lazyPresenters.forEach { it.value.onViewCreated() }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d(TAG, "onStart: canBeShown: " + canBeShown)
+        lazyPresenters.forEach { it.value.onStart() }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        lazyPresenters.forEach { it.value.onResume() }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d(TAG, "onStart: canBeShown: " + canBeShown)
+        lazyPresenters.forEach { it.value.onStop() }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        presenter.onDestroy()
+        lazyPresenters.forEach { it.value.onDestroy() }
     }
 }
