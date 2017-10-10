@@ -21,12 +21,13 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 }
 
-abstract class BaseActivityWithPresenter: BaseActivity(), BaseView {
-    override var canBeShown: Boolean = activityStarted
+abstract class BaseActivityWithPresenter : BaseActivity(), BaseView {
+    override var canBeShown: Boolean = false
+        get() = activityStarted
     override val ctx: Context by lazy { this }
 
     private var lazyPresenters: List<Lazy<BasePresenter>> = emptyList()
-    fun <T: BasePresenter> presenter(init: ()->T) = lazy(init).also { lazyPresenters += it }
+    fun <T : BasePresenter> presenter(init: () -> T) = lazy(init).also { lazyPresenters += it }
 
     fun onCreate(savedInstanceState: Bundle?, init: () -> Unit) {
         super.onCreate(savedInstanceState)
