@@ -9,6 +9,8 @@ import com.sharifi.kotlinweather.base.BaseFragment
 /**
  * Created by sharifi on 10/4/17.
  */
+val Fragment.NAME: String
+    get() = this::class.java.name
 
 fun FragmentActivity.loadFragment(loadToBackStack: Boolean = false, load: FragmentTransaction.() -> String) {
     if (this is BaseActivity && !activityStarted) {
