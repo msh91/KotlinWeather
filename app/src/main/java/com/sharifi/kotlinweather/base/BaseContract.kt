@@ -7,7 +7,7 @@ import org.jetbrains.anko.toast
  * Created by sharifi on 10/4/17.
  */
 interface BaseView {
-    var fragmentTransactionCanBeCommitted: Boolean
+    var canBeShown: Boolean
     val ctx: Context
     fun showError(resId: Int = 0, message: String = "") {
         if (resId != 0) {
@@ -38,11 +38,10 @@ class TestPresenter: BasePresenter
 
 interface TestView: BaseView
 
-class TestFragment: BaseFragment(), TestView {
+class TestFragment: BaseFragmentWithPresenter(), TestView {
+    val testPresenter: TestPresenter by presenter { TestPresenter() }
     override fun setProgressIndicator(active: Boolean) {
 
     }
-
-    override val presenter = TestPresenter()
 
 }
