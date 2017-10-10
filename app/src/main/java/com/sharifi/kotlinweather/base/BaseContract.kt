@@ -33,13 +33,20 @@ interface BasePresenter {
     fun onDestroy() {}
 }
 
-
-class TestPresenter: BasePresenter
-
+interface TestPresenter: BasePresenter
 interface TestView: BaseView
 
+class TestPresenterImpl: TestPresenter
+
 class TestFragment: BaseFragmentWithPresenter(), TestView {
-    val testPresenter: TestPresenter by presenter { TestPresenter() }
+    val testPresenter: TestPresenter by presenter { TestPresenterImpl() }
+    override fun setProgressIndicator(active: Boolean) {
+
+    }
+}
+
+class TestActivity : BaseActivityWithPresenter(), TestView {
+    val testPresenter: TestPresenter by presenter { TestPresenterImpl() }
     override fun setProgressIndicator(active: Boolean) {
 
     }
