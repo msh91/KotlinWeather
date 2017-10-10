@@ -8,8 +8,11 @@ import android.view.View
 /**
  * Created by sharifi on 10/4/17.
  */
+
+
 abstract class BaseFragment : Fragment(), BaseView {
-    override var fragmentTransactionCanBeCommitted: Boolean = false
+    var fragmentStarted: Boolean = false
+    override var fragmentTransactionCanBeCommitted: Boolean = fragmentStarted
     override val ctx: Context by lazy { context }
     abstract val presenter: BasePresenter
 
@@ -25,7 +28,7 @@ abstract class BaseFragment : Fragment(), BaseView {
 
     override fun onStart() {
         super.onStart()
-        fragmentTransactionCanBeCommitted = true
+        fragmentStarted = true
         presenter.onStart()
     }
 
@@ -36,7 +39,7 @@ abstract class BaseFragment : Fragment(), BaseView {
 
     override fun onStop() {
         super.onStop()
-        fragmentTransactionCanBeCommitted = false
+        fragmentStarted = false
         presenter.onStop()
     }
 

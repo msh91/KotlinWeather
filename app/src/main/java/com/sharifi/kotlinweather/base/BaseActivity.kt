@@ -6,15 +6,15 @@ import android.support.v7.app.AppCompatActivity
  * Created by sharifi on 10/4/17.
  */
 abstract class BaseActivity : AppCompatActivity() {
-    var canCommitFragmentTransactions = false
+    var activityStarted = false
 
     override fun onStart() {
         super.onStart()
-        canCommitFragmentTransactions = true
+        activityStarted = true
     }
 
     override fun onStop() {
         super.onStop()
-        canCommitFragmentTransactions = false
+        activityStarted = false
     }
 }
