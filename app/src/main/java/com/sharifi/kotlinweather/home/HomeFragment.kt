@@ -17,12 +17,16 @@ class HomeFragment: BaseFragmentWithPresenter(), HomeView, ToolbarManager {
     override lateinit var toolbar: Toolbar
     private val TAG = HomeFragment::class.java.simpleName
     private val mPresenter: HomePresenter by presenter { HomePresenterImpl() }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.fragment_home, container, false)
-        toolbar = root.findViewById(R.id.toolbar)
-        initToolbarMenu(R.menu.menu_main)
+        findViews(root)
         return root
+    }
+
+    override fun findViews(root: View) {
+        toolbar = root.findViewById(R.id.toolbar)
+        toolbarTitle = getString(R.string.app_name)
+        initToolbarMenu(R.menu.menu_main)
     }
     override fun setProgressIndicator(active: Boolean) {
         Log.d(TAG, "setProgressIndicator() called with: active = [$active]")
