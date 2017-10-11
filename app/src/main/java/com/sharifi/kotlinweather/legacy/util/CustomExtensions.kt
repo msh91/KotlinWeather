@@ -1,11 +1,8 @@
 package com.sharifi.kotlinweather.legacy.util
 
 import android.app.Activity
-import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
-import android.widget.TextView
 import org.jetbrains.anko.db.MapRowParser
 import org.jetbrains.anko.db.SelectQueryBuilder
 import org.jetbrains.anko.internals.AnkoInternals
@@ -53,9 +50,3 @@ fun Long.toDateString(dateFormat: Int = DateFormat.MEDIUM): String {
     val df = DateFormat.getDateInstance(dateFormat, Locale.getDefault())
     return df.format(this)
 }
-
-fun Context.color(res: Int): Int = ContextCompat.getColor(this, res)
-
-var TextView.textColor: Int
-    get() = currentTextColor
-    set(value) = setTextColor(value)

@@ -8,9 +8,9 @@ import com.sharifi.kotlinweather.R
 import com.sharifi.kotlinweather.legacy.data.commands.RequestDayForecastCommand
 import com.sharifi.kotlinweather.legacy.data.model.Forecast
 import com.sharifi.kotlinweather.legacy.toolbar.ToolbarManager
-import com.sharifi.kotlinweather.legacy.util.color
-import com.sharifi.kotlinweather.legacy.util.textColor
 import com.sharifi.kotlinweather.legacy.util.toDateString
+import com.sharifi.kotlinweather.util.color
+import com.sharifi.kotlinweather.util.textColor
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_detail.*
 import org.jetbrains.anko.ctx
@@ -23,7 +23,7 @@ import java.text.DateFormat
  * Created by sharifi on 9/9/17.
  */
 public class DetailActivity : AppCompatActivity(), ToolbarManager {
-    override val toolbar: Toolbar by lazy { find<Toolbar>(R.id.toolbar) }
+    override val toolbar: Toolbar by lazy { find<Toolbar>(R.id.appToolbar) }
 
     companion object {
         val ID = "DetailActivity:id"

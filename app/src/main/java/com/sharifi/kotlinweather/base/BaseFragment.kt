@@ -41,6 +41,7 @@ abstract class BaseFragmentWithPresenter : BaseFragment(), BaseView {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initView()
         lazyPresenters.forEach { it.value.onViewCreated() }
     }
 
