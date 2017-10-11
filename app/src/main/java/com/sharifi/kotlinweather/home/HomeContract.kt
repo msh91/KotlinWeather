@@ -6,6 +6,8 @@ import com.sharifi.kotlinweather.base.BaseView
 /**
  * Created by sharifi on 10/10/17.
  */
-interface HomePresenter: BasePresenter<HomeView>
+interface HomePresenter: BasePresenter<HomeView> {
+    fun loadForecasts(zipCode: Long)
+}
 
 interface HomeView: BaseView

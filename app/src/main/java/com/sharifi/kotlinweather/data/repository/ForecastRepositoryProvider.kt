@@ -9,9 +9,17 @@ import com.sharifi.kotlinweather.data.repository.server.service.RestError
 /**
  * Created by sharifi on 9/24/17.
  */
-class ForecastRepositoryProvider(val sources: List<ForecastRepository> = SOURCES) : ForecastRepository {
+class ForecastRepositoryProvider private constructor(private val sources: List<ForecastRepository> = SOURCES) : ForecastRepository{
     companion object {
         val SOURCES = listOf(ForecastDbRepository(), ForecastServerRepository())
+        val DAY_IN_MILLIS = 1000 * 60 * 60 * 24
+        private var INSTANCE: ForecastRepositoryProvider? = null
+        fun instance(sources: List<ForecastRepository> = SOURCES): ForecastRepositoryProvider {
+            if (INSTANCE == null) {
+                INSTANCE = ForecastRepositoryProvider(sources)
+            }
+            return INSTANCE!!
+        }
     }
 
     override fun requestForecastByZipCode(zipCode: Long, date: Long, success: (ForecastList) -> Unit, failure: (RestError) -> Unit) {
