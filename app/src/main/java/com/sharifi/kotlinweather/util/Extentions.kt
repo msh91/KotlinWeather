@@ -1,11 +1,14 @@
 package com.sharifi.kotlinweather.util
 
+import android.content.Context
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentTransaction
+import android.support.v4.content.ContextCompat
 import android.view.View
+import android.widget.TextView
 import com.sharifi.kotlinweather.base.BaseActivity
 import com.sharifi.kotlinweather.base.BaseFragment
 import org.jetbrains.anko.AnkoException
@@ -100,3 +103,9 @@ fun View.slideEnter() {
     if (translationY < 0f) animate().translationY(0f)
 
 }
+
+fun Context.color(res: Int): Int = ContextCompat.getColor(this, res)
+
+var TextView.textColor: Int
+    get() = currentTextColor
+    set(value) = setTextColor(value)
