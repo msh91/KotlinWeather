@@ -3,7 +3,6 @@ package com.sharifi.kotlinweather.home
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,10 +30,5 @@ class HomeFragment : BaseFragmentWithPresenter(), HomeView, ToolbarManager {
 
         forecastList.layoutManager = LinearLayoutManager(context)
         attachToScroll(forecastList)
-    }
-
-    override fun setProgressIndicator(active: Boolean) {
-        Log.d(TAG, "setProgressIndicator() called with: active = [$active]")
-
     }
 }
