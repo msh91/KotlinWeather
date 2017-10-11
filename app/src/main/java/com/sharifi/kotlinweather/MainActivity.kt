@@ -11,7 +11,10 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+    }
 
+    override fun onStart() {
+        super.onStart()
         loadFragment {
             val homeFragment = HomeFragment()
             add(R.id.main_container, homeFragment, homeFragment.NAME)
