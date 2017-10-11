@@ -4,7 +4,7 @@ import com.antonioleiva.weatherapp.data.server.ForecastServer
 import com.sharifi.kotlinweather.legacy.data.db.ForecastDb
 import com.sharifi.kotlinweather.legacy.data.model.Forecast
 import com.sharifi.kotlinweather.legacy.data.model.ForecastList
-import com.sharifi.kotlinweather.legacy.util.firstResult
+import com.sharifi.kotlinweather.util.firstResult
 
 /**
  * Created by mohammad on 8/28/17.
