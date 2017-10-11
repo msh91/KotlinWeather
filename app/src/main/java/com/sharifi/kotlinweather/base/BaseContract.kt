@@ -12,6 +12,8 @@ import org.jetbrains.anko.toast
 interface BaseView {
     var canBeShown: Boolean
     val ctx: Context
+    var lazyPresenters: List<Lazy<BasePresenter<BaseView>>>
+    fun <T : BasePresenter<BaseView>> presenterInitializer(init: () -> T) = lazy(init).also { lazyPresenters += it }
 
     fun initView()
     /**
@@ -49,7 +51,7 @@ interface TestView : BaseView
 class TestPresenterImpl(override val mView: TestView) : TestPresenter
 
 class TestFragment : BaseFragmentWithPresenter(), TestView {
-    val testPresenter: TestPresenter by presenter { TestPresenterImpl(this) }
+    val testPresenter: TestPresenter by presenterInitializer { TestPresenterImpl(this) }
 
     override fun initView() {
 
@@ -61,7 +63,7 @@ class TestFragment : BaseFragmentWithPresenter(), TestView {
 }
 
 class TestActivity : BaseActivityWithPresenter(), TestView {
-    val testPresenter: TestPresenter by presenter { TestPresenterImpl(this) }
+    val testPresenter: TestPresenter by presenterInitializer { TestPresenterImpl(this) }
 
     override fun initView() {
 

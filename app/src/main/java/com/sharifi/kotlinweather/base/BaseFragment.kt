@@ -29,10 +29,7 @@ abstract class BaseFragmentWithPresenter : BaseFragment(), BaseView {
     override var canBeShown: Boolean = false
         get() = fragmentStarted
     override val ctx: Context by lazy { context }
-
-    fun <T : BasePresenter> presenter(init: () -> T) = lazy(init).also { lazyPresenters += it }
-
-    private var lazyPresenters: List<Lazy<BasePresenter>> = emptyList()
+    override var lazyPresenters: List<Lazy<BasePresenter<BaseView>>> = emptyList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
