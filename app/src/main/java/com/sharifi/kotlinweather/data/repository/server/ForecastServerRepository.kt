@@ -21,7 +21,7 @@ class ForecastServerRepository(
         apiService
                 .requestForecastByZipCode(query = zipCode.toString())
                 .enqueue(RestCallback<ForecastListResult>({
-                    dataMapper.convertForecastListResultToDomain(zipCode, it)
+                    success(dataMapper.convertForecastListResultToDomain(zipCode, it))
                 }, failure))
     }
 

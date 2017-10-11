@@ -109,3 +109,11 @@ fun Context.color(res: Int): Int = ContextCompat.getColor(this, res)
 var TextView.textColor: Int
     get() = currentTextColor
     set(value) = setTextColor(value)
+
+inline fun <T, R : Any> Iterable<T>.firstResult(predicate: (T) -> R?): R {
+    this.forEach { element ->
+        val result = predicate(element)
+        if (result != null) return result
+    }
+    throw NoSuchElementException("No element matching predicate was found.")
+}
