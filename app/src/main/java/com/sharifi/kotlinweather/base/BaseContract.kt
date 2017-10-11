@@ -28,7 +28,8 @@ interface BaseView {
     }
 }
 
-interface BasePresenter {
+interface BasePresenter<out T: BaseView> {
+    val mView: T
     fun onCreate() {}
 
     fun onViewCreated() {}
@@ -42,28 +43,30 @@ interface BasePresenter {
     fun onDestroy() {}
 }
 
-interface TestPresenter : BasePresenter
+interface TestPresenter : BasePresenter<TestView>
 interface TestView : BaseView
 
-class TestPresenterImpl : TestPresenter
+class TestPresenterImpl(override val mView: TestView) : TestPresenter
 
 class TestFragment : BaseFragmentWithPresenter(), TestView {
-    val testPresenter: TestPresenter by presenter { TestPresenterImpl() }
+    val testPresenter: TestPresenter by presenter { TestPresenterImpl(this) }
 
     override fun initView() {
 
     }
+
     override fun setProgressIndicator(active: Boolean) {
 
     }
 }
 
 class TestActivity : BaseActivityWithPresenter(), TestView {
-    val testPresenter: TestPresenter by presenter { TestPresenterImpl() }
+    val testPresenter: TestPresenter by presenter { TestPresenterImpl(this) }
 
     override fun initView() {
 
     }
+
     override fun setProgressIndicator(active: Boolean) {
 
     }
