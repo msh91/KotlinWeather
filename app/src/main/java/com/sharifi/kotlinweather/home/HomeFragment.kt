@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.toolbar.*
 class HomeFragment : BaseFragmentWithPresenter(), HomeView, ToolbarManager {
     override lateinit var toolbar: Toolbar
     private val TAG = HomeFragment::class.java.simpleName
-    private val mPresenter: HomePresenter by presenter { HomePresenterImpl(this) }
+    private val mPresenter: HomePresenter by presenterInitializer { HomePresenterImpl(this) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater.inflate(R.layout.fragment_home, container, false)
