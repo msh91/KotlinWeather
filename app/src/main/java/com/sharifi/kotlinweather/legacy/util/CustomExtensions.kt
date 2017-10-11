@@ -5,7 +5,6 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
-import android.view.View
 import android.widget.TextView
 import org.jetbrains.anko.db.MapRowParser
 import org.jetbrains.anko.db.SelectQueryBuilder
@@ -60,12 +59,3 @@ fun Context.color(res: Int): Int = ContextCompat.getColor(this, res)
 var TextView.textColor: Int
     get() = currentTextColor
     set(value) = setTextColor(value)
-
-fun View.slideExit() {
-    if (translationY == 0f) animate().translationY(-height.toFloat())
-}
-
-fun View.slideEnter() {
-    if (translationY < 0f) animate().translationY(0f)
-
-}
