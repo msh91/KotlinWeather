@@ -1,9 +1,6 @@
 package com.sharifi.kotlinweather.base
 
 import android.content.Context
-import android.os.Bundle
-import android.os.PersistableBundle
-import com.sharifi.kotlinweather.R
 import org.jetbrains.anko.toast
 
 /**
@@ -15,11 +12,15 @@ interface BaseView {
     var lazyPresenters: List<Lazy<BasePresenter<BaseView>>>
     fun <T : BasePresenter<BaseView>> presenterInitializer(init: () -> T) = lazy(init).also { lazyPresenters += it }
 
-    fun initView()
+    /**
+     * will be called immediately after BasePresenter.onViewCreated() to initial views
+     */
+    fun initView() {}
+
     /**
      * show or hide progress view (like ProgressBar)
      */
-    fun setProgressIndicator(active: Boolean)
+    fun setProgressIndicator(active: Boolean) {}
 
     fun showError(resId: Int = 0, message: String = "") {
         if (resId != 0) {
@@ -30,7 +31,7 @@ interface BaseView {
     }
 }
 
-interface BasePresenter<out T: BaseView> {
+interface BasePresenter<out T : BaseView> {
     val mView: T
     fun onCreate() {}
 
@@ -43,40 +44,4 @@ interface BasePresenter<out T: BaseView> {
     fun onStop() {}
 
     fun onDestroy() {}
-}
-
-interface TestPresenter : BasePresenter<TestView>
-interface TestView : BaseView
-
-class TestPresenterImpl(override val mView: TestView) : TestPresenter
-
-class TestFragment : BaseFragmentWithPresenter(), TestView {
-    val testPresenter: TestPresenter by presenterInitializer { TestPresenterImpl(this) }
-
-    override fun initView() {
-
-    }
-
-    override fun setProgressIndicator(active: Boolean) {
-
-    }
-}
-
-class TestActivity : BaseActivityWithPresenter(), TestView {
-    val testPresenter: TestPresenter by presenterInitializer { TestPresenterImpl(this) }
-
-    override fun initView() {
-
-    }
-
-    override fun setProgressIndicator(active: Boolean) {
-
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        onCreate(savedInstanceState) {
-            setContentView(R.layout.activity_main)
-        }
-    }
-
 }
