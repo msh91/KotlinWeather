@@ -5,6 +5,7 @@ import android.os.Parcelable
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentTransaction
+import android.view.View
 import com.sharifi.kotlinweather.base.BaseActivity
 import com.sharifi.kotlinweather.base.BaseFragment
 import org.jetbrains.anko.AnkoException
@@ -89,4 +90,13 @@ fun Bundle.fill(params: Array<out Pair<String, Any?>>) = apply {
             else -> throw AnkoException("Bundle extra ${it.first} has wrong type ${value.javaClass.name}")
         }
     }
+}
+
+fun View.slideExit() {
+    if (translationY == 0f) animate().translationY(-height.toFloat())
+}
+
+fun View.slideEnter() {
+    if (translationY < 0f) animate().translationY(0f)
+
 }

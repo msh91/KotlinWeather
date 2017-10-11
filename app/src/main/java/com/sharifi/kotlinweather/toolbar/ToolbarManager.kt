@@ -1,19 +1,18 @@
-package com.sharifi.kotlinweather.legacy.toolbar
+package com.sharifi.kotlinweather.toolbar
 
 import android.support.design.widget.AppBarLayout
 import android.support.v7.graphics.drawable.DrawerArrowDrawable
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import com.sharifi.kotlinweather.App
-import com.sharifi.kotlinweather.R
-import com.sharifi.kotlinweather.legacy.setting.SettingsActivity
 import com.sharifi.kotlinweather.util.slideEnter
 import com.sharifi.kotlinweather.util.slideExit
-import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
 /**
  * Created by sharifi on 9/9/17.
+ *
+ * Toolbar interface that add a Toolbar to Activity or Fragment and handles basic functionality of toolbar
  */
 interface ToolbarManager {
     val toolbar: Toolbar
@@ -23,13 +22,16 @@ interface ToolbarManager {
             toolbar.title = value
         }
 
-    fun initToolbar() {
-        toolbar.inflateMenu(R.menu.menu_main)
+    /**
+     * add menu to toolbar
+     */
+    fun initToolbarMenu(menuId : Int = 0) {
+        if (menuId == 0) {
+            return
+        }
+        toolbar.inflateMenu(menuId)
         toolbar.setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.action_settings -> toolbar.context.startActivity<SettingsActivity>()
-                else -> App.instance.toast("Unknown Action")
-            }
+            App.instance.toast(it.title)
             true
         }
     }
