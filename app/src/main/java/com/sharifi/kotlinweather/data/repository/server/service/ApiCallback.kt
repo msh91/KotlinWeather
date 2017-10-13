@@ -8,7 +8,7 @@ import retrofit2.Response
 /**
  * Created by sharifi on 9/25/17.
  */
-class ApiCallback<T>(val response: (body: T) -> Unit, val failure: (error: ApiError) -> Unit) : Callback<T> {
+class ApiCallback<T>(private val response: (body: T) -> Unit, private val failure: (error: ApiError) -> Unit) : Callback<T> {
     private val TAG = ApiCallback::class.java.simpleName
 
     override fun onFailure(call: Call<T>, t: Throwable) {
@@ -18,7 +18,7 @@ class ApiCallback<T>(val response: (body: T) -> Unit, val failure: (error: ApiEr
     }
 
     override fun onResponse(call: Call<T>, response: Response<T>) {
-        Log.d(TAG, "${call.request().url()} onResponse() called with: response = [${response.code()}]")
+        Log.d(TAG, "${call.request().url().encodedPath()} onResponse() called with: response = [${response.code()}]")
         if (!response.isSuccessful) {
             try {
                 Log.d(TAG, "onResponse: errorBody: ${response.errorBody()?.string()}")

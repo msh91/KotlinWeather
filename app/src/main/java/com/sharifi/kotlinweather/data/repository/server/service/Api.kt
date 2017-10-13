@@ -17,10 +17,10 @@ object Api {
     private val TAG = Api::class.java.simpleName
     val DATE_FORMAT: String = "yyyy-MM-dd'T'HH:mm:ss"
 
-    fun <T> createService(serviceClass: Class<T>): T =
-            retrofit.create(serviceClass)
+    inline fun <reified T> instance(): T =
+            retrofit.create(T::class.java)
 
-    private val retrofit: Retrofit by lazy {
+    val retrofit: Retrofit by lazy {
         val builder = Retrofit.Builder()
                 .baseUrl(Constants.BASE_URL)
                 .addConverterFactory(buildConverterFactory())
@@ -36,11 +36,12 @@ object Api {
         val t1 = System.nanoTime()
         val original = it.request()
         val requestBuilder = original?.newBuilder()
-        val request = requestBuilder
-                ?.url(original.url())
-                ?.header("Accept-Language", "fa")
-                ?.method(original.method(), original.body())
-                ?.build()
+        val request = requestBuilder?.apply {
+            url(original.url())
+            header("Accept-Language", "fa")
+            method(original.method(), original.body())
+        }?.build()
+
         Log.d(TAG, "Sending Request ${request?.url()} on ${it.connection()} %n ${request?.headers()}")
         val response = it.proceed(requestBuilder!!.build())
         val t2 = System.nanoTime()

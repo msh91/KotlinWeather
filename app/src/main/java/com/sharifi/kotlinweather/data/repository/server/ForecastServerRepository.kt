@@ -4,15 +4,15 @@ import com.sharifi.kotlinweather.data.model.Forecast
 import com.sharifi.kotlinweather.data.model.ForecastList
 import com.sharifi.kotlinweather.data.repository.ForecastRepository
 import com.sharifi.kotlinweather.data.repository.server.service.Api
-import com.sharifi.kotlinweather.data.repository.server.service.ApiService
 import com.sharifi.kotlinweather.data.repository.server.service.ApiCallback
 import com.sharifi.kotlinweather.data.repository.server.service.ApiError
+import com.sharifi.kotlinweather.data.repository.server.service.ApiService
 
 /**
  * Created by sharifi on 9/24/17.
  */
 class ForecastServerRepository(
-        private val apiService: ApiService = Api.createService(ApiService::class.java),
+        private val apiService: ApiService = Api.instance(),
         private val dataMapper: ServerDataMapper = ServerDataMapper()) : ForecastRepository {
 
     private val TAG = ForecastServerRepository::class.java.simpleName
