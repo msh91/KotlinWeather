@@ -8,13 +8,13 @@ import retrofit2.Response
 /**
  * Created by sharifi on 9/25/17.
  */
-class RestCallback<T>(val response: (body: T) -> Unit, val failure: (error: RestError) -> Unit) : Callback<T> {
-    private val TAG = RestCallback::class.java.simpleName
+class ApiCallback<T>(val response: (body: T) -> Unit, val failure: (error: ApiError) -> Unit) : Callback<T> {
+    private val TAG = ApiCallback::class.java.simpleName
 
     override fun onFailure(call: Call<T>, t: Throwable) {
         Log.d(TAG, "${call.request().url()} onFailure: " + t.message)
         t.printStackTrace()
-        failure(RestError(RestStatus.NO_CONNECTION))
+        failure(ApiError(RestStatus.NO_CONNECTION))
     }
 
     override fun onResponse(call: Call<T>, response: Response<T>) {
@@ -25,14 +25,14 @@ class RestCallback<T>(val response: (body: T) -> Unit, val failure: (error: Rest
             } catch (t: Throwable) {
 
             }
-            failure(RestError(RestStatus.BAD_RESPONSE, response.code()))
+            failure(ApiError(RestStatus.BAD_RESPONSE, response.code()))
             return
         }
         val body = response.body()
         Log.d(TAG, "onResponse() called with body: $body")
 
         return if (body == null || (body is List<*> && body.isEmpty()))
-            failure(RestError(RestStatus.EMPTY_RESPONSE, response.code()))
+            failure(ApiError(RestStatus.EMPTY_RESPONSE, response.code()))
         else
             response(body)
     }

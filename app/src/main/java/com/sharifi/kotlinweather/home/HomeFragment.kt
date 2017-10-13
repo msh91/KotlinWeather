@@ -35,7 +35,6 @@ class HomeFragment : BaseFragmentWithPresenter(), HomeView, ToolbarManager {
     }
 
     override fun setProgressIndicator(active: Boolean) {
-        super<BaseFragmentWithPresenter>.setProgressIndicator(active)
         Log.d(TAG, "setProgressIndicator() called with: active = [$active]")
     }
 }
