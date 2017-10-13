@@ -11,24 +11,22 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 /**
- * Created by sharifi on 9/24/17.
+ * Created by sharifi on 10/13/17.
  */
-class RestClient private constructor() {
-    private val TAG = RestClient::class.java.simpleName
+object Api {
+    private val TAG = Api::class.java.simpleName
+    val DATE_FORMAT: String = "yyyy-MM-dd'T'HH:mm:ss"
 
-    companion object {
-        val DATE_FORMAT: String = "yyyy-MM-dd'T'HH:mm:ss"
-        private val instance: RestClient by lazy { RestClient() }
-        fun <T> createService(serviceClass: Class<T>): T =
-                instance.retrofit.create(serviceClass)
-    }
+    fun <T> createService(serviceClass: Class<T>): T =
+            retrofit.create(serviceClass)
 
-    val retrofit: Retrofit by lazy {
+    private val retrofit: Retrofit by lazy {
         val builder = Retrofit.Builder()
                 .baseUrl(Constants.BASE_URL)
                 .addConverterFactory(buildConverterFactory())
         val httpClient = OkHttpClient.Builder()
-                .readTimeout(20, TimeUnit.SECONDS)
+                .connectTimeout(20, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
                 .addInterceptor(customInterceptor())
                 .build()
         builder.client(httpClient).build()

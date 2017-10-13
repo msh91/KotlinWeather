@@ -3,6 +3,12 @@ package com.sharifi.kotlinweather.data.repository.server.service
 /**
  * Created by sharifi on 9/25/17.
  */
+data class ApiError(
+        val status: RestStatus,
+        val code: Int = -1,
+        val message: String = ""
+)
+
 enum class RestStatus {
     /**
      * no error occurred
