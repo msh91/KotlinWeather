@@ -42,10 +42,10 @@ object Api {
             method(original.method(), original.body())
         }?.build()
 
-        Log.d(TAG, "Sending Request ${request?.url()} on ${it.connection()} %n ${request?.headers()}")
+        Log.d(TAG, "Sending ${request?.method()} Request ${request?.url()} \nHeaders:  ${request?.headers()} \nBody: ${request?.body()}")
         val response = it.proceed(requestBuilder!!.build())
         val t2 = System.nanoTime()
-        Log.d(TAG, "Received Response for ${response.request().url()} in ${((t2 - t1) / 1e6)}")
+        Log.d(TAG, "Received ${response.code()} for ${request?.method()} ${response.request().url()} in ${((t2 - t1) / 1e6).toInt()} milliseconds")
         response
     }
 
