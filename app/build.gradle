@@ -9,8 +9,8 @@ android {
         applicationId "com.sharifi.kotlinweather"
         minSdkVersion 17
         targetSdkVersion 25
-        versionCode 111
-        versionName "1.1.1"
+        versionCode 112
+        versionName "1.1.2"
         setProperty("archivesBaseName", "pargar-v$versionName")
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 //        multiDexEnabled true
@@ -20,13 +20,30 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-        productFlavors {
-            flavor1 {
+    }
+    flavorDimensions "MAIN","PROMO"
+    productFlavors {
+        base {
+            dimension "MAIN"
+        }
+        bazaar {
+            dimension "MAIN"
+        }
 
-            }
-            flavor2 {
-
-            }
+        promo1 {
+            dimension "PROMO"
+        }
+        promo2 {
+            dimension "PROMO"
+        }
+        promo3 {
+            dimension "PROMO"
+        }
+        promo4 {
+            dimension "PROMO"
+        }
+        promo5 {
+            dimension "PROMO"
         }
     }
 }
