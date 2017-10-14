@@ -18,7 +18,6 @@ class ApiCallback<T>(private val response: (body: T) -> Unit, private val failur
     }
 
     override fun onResponse(call: Call<T>, response: Response<T>) {
-        Log.d(TAG, "${call.request().url().encodedPath()} onResponse() called with: response = [${response.code()}]")
         if (!response.isSuccessful) {
             try {
                 Log.d(TAG, "onResponse: errorBody: ${response.errorBody()?.string()}")
@@ -29,7 +28,6 @@ class ApiCallback<T>(private val response: (body: T) -> Unit, private val failur
             return
         }
         val body = response.body()
-        Log.d(TAG, "onResponse() called with body: $body")
 
         return if (body == null || (body is List<*> && body.isEmpty()))
             failure(ApiError(RestStatus.EMPTY_RESPONSE, response.code()))
