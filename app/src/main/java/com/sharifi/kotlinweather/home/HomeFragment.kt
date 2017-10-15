@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.sharifi.kotlinweather.R
 import com.sharifi.kotlinweather.base.BaseFragmentWithPresenter
+import com.sharifi.kotlinweather.data.model.Forecast
+import com.sharifi.kotlinweather.data.model.ForecastList
 import com.sharifi.kotlinweather.toolbar.ToolbarManager
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -17,9 +19,10 @@ import kotlinx.android.synthetic.main.toolbar.*
  * Created by sharifi on 10/10/17.
  */
 class HomeFragment : BaseFragmentWithPresenter(), HomeView, ToolbarManager {
+
     override lateinit var toolbar: Toolbar
     private val TAG = HomeFragment::class.java.simpleName
-    private val mPresenter: HomePresenter by presenterInitializer { HomePresenterImpl(this, zipCode = 1234 ) }
+    private val mPresenter: HomePresenter by presenterInitializer { HomePresenterImpl(this, zipCode = 1234) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater.inflate(R.layout.fragment_home, container, false)
@@ -36,5 +39,13 @@ class HomeFragment : BaseFragmentWithPresenter(), HomeView, ToolbarManager {
 
     override fun setProgressIndicator(active: Boolean) {
         Log.d(TAG, "setProgressIndicator() called with: active = [$active]")
+    }
+
+    override fun showForecasts(forecasts: ForecastList) {
+        forecastList.adapter = HomeForecastListAdapter(forecasts, this::onForecastSelected)
+    }
+
+    override fun onForecastSelected(forecast: Forecast) {
+        Log.d(TAG, "onForecastSelected() called with: forecast = [$forecast]")
     }
 }

@@ -26,12 +26,20 @@ class HomePresenterImpl(
                 zipCode,
                 System.currentTimeMillis() / ForecastRepositoryProvider.DAY_IN_MILLIS,
                 {
-                    mView.setProgressIndicator(false)
                     Log.d(TAG, "loadForecasts() called with success: " + it)
+                    if (!mView.canBeShown) {
+                        return@requestForecastByZipCode
+                    }
+                    mView.setProgressIndicator(false)
+                    mView.showForecasts(it)
                 },
                 {
-                    mView.setProgressIndicator(false)
                     Log.d(TAG, "loadForecasts() called with failure: " + it)
+                    if (!mView.canBeShown) {
+                        return@requestForecastByZipCode
+                    }
+                    mView.setProgressIndicator(false)
+                    mView.showError(message = it.message)
                 }
         )
     }
