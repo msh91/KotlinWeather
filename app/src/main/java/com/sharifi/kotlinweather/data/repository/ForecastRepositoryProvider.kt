@@ -9,7 +9,7 @@ import com.sharifi.kotlinweather.data.repository.server.service.ApiError
 /**
  * Created by sharifi on 9/24/17.
  */
-class ForecastRepositoryProvider private constructor(private val sources: List<ForecastRepository> = SOURCES) : ForecastRepository{
+class ForecastRepositoryProvider private constructor(val sources: List<ForecastRepository> = SOURCES) : ForecastRepository{
     companion object {
         val SOURCES = listOf(ForecastDbRepository(), ForecastServerRepository())
         val DAY_IN_MILLIS = 1000 * 60 * 60 * 24
