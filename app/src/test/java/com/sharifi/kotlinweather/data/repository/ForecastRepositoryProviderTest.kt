@@ -5,10 +5,13 @@ import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.api.dsl.on
 import org.junit.Assert.assertEquals
+import org.junit.platform.runner.JUnitPlatform
+import org.junit.runner.RunWith
 
 /**
  * Created by sharifi on 10/16/17.
  */
+@RunWith(JUnitPlatform::class)
 object ForecastRepositoryProviderTest : Spek({
     describe("a forecast provider") {
                 val provider = ForecastRepositoryProvider.instance()
