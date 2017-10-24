@@ -2,17 +2,19 @@ package com.sharifi.kotlinweather.home
 
 import android.util.Log
 import com.sharifi.kotlinweather.data.repository.ForecastRepositoryProvider
+import io.reactivex.disposables.CompositeDisposable
 
 /**
  * Created by sharifi on 10/10/17.
  */
 class HomePresenterImpl(
         override val mView: HomeView,
-        val forecastRepositoy: ForecastRepositoryProvider = ForecastRepositoryProvider.instance(),
-        val zipCode: Long
+        private val forecastRepository: ForecastRepositoryProvider = ForecastRepositoryProvider.instance(),
+        val zipCode: Long, override val disposables: CompositeDisposable = CompositeDisposable()
 
 ) : HomePresenter {
     private val TAG = HomePresenterImpl::class.java.simpleName
+
 
     override fun onViewCreated() {
         super.onViewCreated()
@@ -22,9 +24,10 @@ class HomePresenterImpl(
     override fun loadForecasts(zipCode: Long) {
         Log.d(TAG, "loadForecasts() called with: zipCode = [$zipCode]")
         mView.setProgressIndicator(true)
-        forecastRepositoy.requestForecastByZipCode(
+        forecastRepository.requestForecastByZipCode(
                 zipCode,
                 System.currentTimeMillis() / ForecastRepositoryProvider.DAY_IN_MILLIS,
+                this::addDisposable,
                 {
                     Log.d(TAG, "loadForecasts() called with success: " + it)
                     if (!mView.canBeShown) {
@@ -42,7 +45,6 @@ class HomePresenterImpl(
                     mView.showError(message = it.message)
                 }
         )
+
     }
-
-
 }
