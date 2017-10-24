@@ -4,9 +4,10 @@ import com.sharifi.kotlinweather.data.model.Forecast
 import com.sharifi.kotlinweather.data.model.ForecastList
 import com.sharifi.kotlinweather.data.repository.ForecastRepository
 import com.sharifi.kotlinweather.data.repository.server.service.Api
-import com.sharifi.kotlinweather.data.repository.server.service.ApiCallback
+import com.sharifi.kotlinweather.data.repository.server.service.ApiDisposable
 import com.sharifi.kotlinweather.data.repository.server.service.ApiError
 import com.sharifi.kotlinweather.data.repository.server.service.ApiService
+import io.reactivex.android.schedulers.AndroidSchedulers
 
 /**
  * Created by sharifi on 9/24/17.
@@ -20,7 +21,8 @@ class ForecastServerRepository(
     override fun requestForecastByZipCode(zipCode: Long, date: Long, success: (ForecastList) -> Unit, failure: (ApiError) -> Unit) {
         apiService
                 .requestForecastByZipCode(query = zipCode.toString())
-                .enqueue(ApiCallback<ForecastListResult>({
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(ApiDisposable({
                     success(dataMapper.convertForecastListResultToDomain(zipCode, it))
                 }, failure))
     }
