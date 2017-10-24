@@ -59,5 +59,8 @@ dependencies {
     compile "com.google.code.gson:gson:$gson_version"
     compile "com.squareup.retrofit2:retrofit:$retrofit_version"
     compile "com.squareup.retrofit2:converter-gson:$gson_converter_version"
+    compile "io.reactivex.rxjava2:rxjava:$rx_version"
+    compile "io.reactivex.rxjava2:rxandroid:$rx_android_version"
+    compile "com.squareup.retrofit2:adapter-rxjava2:$rx_adapter_version"
     compile "com.squareup.picasso:picasso:$picasso_version"
 }
