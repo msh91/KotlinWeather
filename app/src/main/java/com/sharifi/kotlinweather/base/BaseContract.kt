@@ -1,6 +1,8 @@
 package com.sharifi.kotlinweather.base
 
 import android.content.Context
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import org.jetbrains.anko.toast
 
 /**
@@ -33,6 +35,7 @@ interface BaseView {
 
 interface BasePresenter<out T : BaseView> {
     val mView: T
+    val disposables: CompositeDisposable?
     fun onCreate() {}
 
     fun onViewCreated() {}
@@ -41,7 +44,11 @@ interface BasePresenter<out T : BaseView> {
 
     fun onResume() {}
 
-    fun onStop() {}
+    fun onStop() {
+        disposables?.clear()
+    }
+
+    fun addDisposable(disposable: Disposable) {disposables?.add(disposable)}
 
     fun onDestroy() {}
 }
