@@ -13,6 +13,6 @@ interface ApiService {
     @GET("data/2.5/forecast/daily?mode=json&units=metric&cnt=7")
     fun requestForecastByZipCode(
             @Query("APPID") appId: String = Constants.APP_ID,
-            @Query("q") query: String
+            @Query("id") id: Long
     ): Observable<ForecastListResult>
 }

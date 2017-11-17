@@ -22,7 +22,7 @@ class HomeFragment : BaseFragmentWithPresenter(), HomeView, ToolbarManager {
 
     override lateinit var toolbar: Toolbar
     private val TAG = HomeFragment::class.java.simpleName
-    private val mPresenter: HomePresenter by presenterInitializer { HomePresenterImpl(this, zipCode = 1234) }
+    private val mPresenter: HomePresenter by presenterInitializer { HomePresenterImpl(this, zipCode = 112931) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater.inflate(R.layout.fragment_home, container, false)
