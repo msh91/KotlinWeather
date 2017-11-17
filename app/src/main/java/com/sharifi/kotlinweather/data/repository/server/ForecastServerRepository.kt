@@ -21,7 +21,7 @@ class ForecastServerRepository(
 
     override fun requestForecastByZipCode(zipCode: Long, date: Long, success: (ForecastList) -> Unit, failure: (ApiError) -> Unit): Disposable {
         return apiService
-                .requestForecastByZipCode(query = zipCode.toString())
+                .requestForecastByZipCode(id = zipCode)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(ApiDisposable({
                     success(dataMapper.convertForecastListResultToDomain(zipCode, it))
